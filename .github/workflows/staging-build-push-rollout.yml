@@ -1,0 +1,48 @@
+name: Build, Push, Rollout k8s
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  build-and-push:
+    name: Build and Push
+    runs-on: ubuntu-latest
+    steps:
+      # https://github.com/marketplace/actions/build-and-push-docker-images
+      - name: Checkout files
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: bsignbkc
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: | 
+            bsignbkc/dpki-be:${{ github.ref_name }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+  
+  pull-and-reup:
+    name: Pull new image and re run with the new version
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    steps:
+      - uses: appleboy/ssh-action@master
+        with:
+          host: ${{ vars.SERVER_IP }}
+          username: ${{ vars.USERNAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: |
+            cd ${{ vars.PATH }}
+            docker compose pull dpki-be && docker compose stop dpki-be && docker compose rm -f dpki-be && docker compose up -d dpki-be

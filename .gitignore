@@ -1,0 +1,43 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env
+.env.local
+.env.prod
+.env.dev
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+debug.log
+
+/p12/
+id_rsa
+*service-account-key.json
+*firebase-adminsdk-sa.json
+
+command.txt
+mongodump*
+
+.vscode
+.idea
+scripts/import-original-sign-images/assets
+
+VMUCredentialsManagerDB*.json
+assets
+
+scripts/**/*.png
+scripts/**/*.jpg

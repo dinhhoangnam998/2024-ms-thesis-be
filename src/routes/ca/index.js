@@ -47,10 +47,8 @@ router.patch(
   '/ca-address',
   authen,
   handlerWrapper(async (req, res) => {
-    const { name, caAddress, docsCid, txid, id, stakeAmount } = updateCaAddressSchema.parse(req.body);
-    await db
-      .collection(Collections.Accounts)
-      .updateOne({ accountId: req.caller.accountId }, { $set: { name, caAddress, docsCid, txid, id, stakeAmount } });
+    // const { name, caAddress, docsCid, txid, id, stakeAmount } = updateCaAddressSchema.parse(req.body);
+    await db.collection(Collections.Accounts).updateOne({ accountId: req.caller.accountId }, { $set: { ...req.body } });
     return res.sendStatus(201);
   })
 );

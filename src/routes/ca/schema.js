@@ -13,3 +13,8 @@ export const updateCaAddressSchema = z.object({
   docsCid: z.string(),
   txid: z.string(),
 });
+
+export const pleadAReportSchema = z.object({
+  reportOid: z.string(),
+  ipfsCid: z.string(),
+});

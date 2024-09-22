@@ -1,28 +1,71 @@
 import bcrypt from 'bcryptjs';
-import { appEnv } from './config/env.js';
 import { Collections, db } from './db.js';
-import { Role } from './routes/access-control/role.js';
 
 export async function onInit() {
-  await initAdminAccount();
+  await initAccounts();
 }
 
-async function initAdminAccount() {
+async function initAccounts() {
   const coll = db.collection(Collections.Accounts);
   const count = await coll.countDocuments({});
   if (count !== 0) return;
 
-  const accountId = appEnv.ADMIN_ACCOUNT_ID;
-  const password = appEnv.ADMIN_ACCOUNT_PASSWORD;
   const salt = await bcrypt.genSalt();
-  const hashedPassword = await bcrypt.hash(password, salt);
-  const adminAccount = {
-    accountId,
-    hashedPassword,
-    roles: [Role.Admin],
-    info: {
-      name: appEnv.ADMIN_ACCOUNT_NAME,
+  const hashedPassword = await bcrypt.hash('12345678', salt);
+
+  const ownerAccounts = [
+    {
+      accountId: 'owner1@gmail.com',
+      hashedPassword,
+      roles: ['Owner'],
     },
-  };
-  await coll.insertOne(adminAccount);
+    {
+      accountId: 'owner2@gmail.com',
+      hashedPassword,
+      roles: ['Owner'],
+    },
+    {
+      accountId: 'owner3@gmail.com',
+      hashedPassword,
+      roles: ['Owner'],
+    },
+  ];
+
+  const caAccounts = [
+    {
+      accountId: 'ca1@gmail.com',
+      hashedPassword,
+      roles: ['CA'],
+    },
+    {
+      accountId: 'ca2@gmail.com',
+      hashedPassword,
+      roles: ['CA'],
+    },
+    {
+      accountId: 'ca3@gmail.com',
+      hashedPassword,
+      roles: ['CA'],
+    },
+  ];
+
+  const boardAccounts = [
+    {
+      accountId: 'board1@gmail.com',
+      hashedPassword,
+      roles: ['Board'],
+    },
+    {
+      accountId: 'board2@gmail.com',
+      hashedPassword,
+      roles: ['Board'],
+    },
+    {
+      accountId: 'board3@gmail.com',
+      hashedPassword,
+      roles: ['Board'],
+    },
+  ];
+
+  await coll.insertMany([...ownerAccounts, ...caAccounts, ...boardAccounts]);
 }

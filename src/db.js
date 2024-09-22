@@ -9,10 +9,9 @@ export const db = client.db();
 export const Collections = {
   Accounts: 'accounts',
   Certificates: 'certificates',
-  RequestLogs: 'request_logs',
-  Settings: 'settings',
-  ForgotPassword: 'forgot_password',
+  FraudReports: 'fraud_reports',
   RefreshTokens: 'refresh_tokens',
+  RequestLogs: 'request_logs',
 };
 
 await db.collection(Collections.Accounts).createIndex({ accountId: 1 }, { unique: true });

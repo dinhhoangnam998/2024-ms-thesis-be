@@ -13,3 +13,14 @@ export const createCertificateSchema = z.object({
   state: z.string().optional(),
   locality: z.string().optional(),
 });
+
+export const createFraudReportSchema = z.object({
+  reportId: z.string(),
+  reporter: z.string(),
+  stakedAmount: z.string(),
+  identity: z.string(),
+  serialNumber: z.string(),
+  caAddresses: z.string().array(),
+  caAccountIds: z.string().array(),
+  reportDocCID: z.string(),
+});

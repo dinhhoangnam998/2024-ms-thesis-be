@@ -14,11 +14,7 @@ const appEnvSchema = z.object({
   // log lib
   APP_NAME: z.string(),
   TIME_ZONE: z.string(),
-  // pdf-signer-x
 
-  ADMIN_ACCOUNT_ID: accountIdFieldSchema,
-  ADMIN_ACCOUNT_PASSWORD: z.string(),
-  ADMIN_ACCOUNT_NAME: z.string().optional().default('Administrator'),
   // file storage
   // FILE_STORAGE_PROVIDER: FileStorageProviderEnum,
   // FILE_SERVER_URL: z.string().optional(),
@@ -30,12 +26,7 @@ const appEnvSchema = z.object({
   GG_MAILER_USER: z.string().email(),
   GG_MAILER_PW: z.string(),
 
-  FORGET_PASSWORD_TOKEN_EXPIRE_TIME: z.string().or(z.number()).default('1h'),
   ACCESS_TOKEN_EXPIRE_TIME: z.string().or(z.number()).default('10m'),
-  SSO_REFRESH_TOKEN_EXPIRE_TIME: z.string().or(z.number()).default('1d'),
-
-  // save files when singing
-  SAVE_FILE_WHEN_SIGNING: booleanParamSchema.default('true'),
 });
 // .superRefine((schema, ctx) => {
 //   if (schema.FILE_STORAGE_PROVIDER === FileStorageProviderEnum.enum.BSIGN_FILE_SERVER) {
@@ -58,7 +49,5 @@ const appEnvSchema = z.object({
 //     }
 //   }
 // });
-
-// TODO: validate files: id_rsa, service-account-key.json
 
 export const appEnv = appEnvSchema.parse(process.env);

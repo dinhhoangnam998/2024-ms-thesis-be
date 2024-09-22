@@ -3,7 +3,8 @@ import { Collections, db } from '#src/db.js';
 import { genReadMany, MiddlewareMode } from '#src/libs/base-crud/index.js';
 import { Router } from 'express';
 import { ObjectId } from 'mongodb';
-import { voteCaSchema } from './schema.js';
+import { authen } from '../access-control/middleware.js';
+import { voteCaSchema, voteReportSchema } from './schema.js';
 
 const router = Router();
 
@@ -19,10 +20,26 @@ router.get(
 router.patch(
   '/cas/vote',
   handlerWrapper(async (req, res) => {
-    const { caId, ...rest } = voteCaSchema.parse(req.body);
-    await db.collection(Collections.Accounts).updateOne({ _id: new ObjectId(caId) }, { $push: { votes: rest } });
+    const { caOid, ...rest } = voteCaSchema.parse(req.body);
+    await db.collection(Collections.Accounts).updateOne({ _id: new ObjectId(caOid) }, { $push: { votes: rest } });
     return res.sendStatus(201);
   })
 );
 
+router.get('/reports', genReadMany({ collName: Collections.FraudReports, mode: MiddlewareMode.DIRECT_RESPONSE }));
+
+router.patch(
+  '/reports/vote',
+  authen,
+  handlerWrapper(async (req, res) => {
+    const payload = voteReportSchema.parse(req.body);
+    await db
+      .collection(Collections.Certificates)
+      .updateOne(
+        { _id: new ObjectId(payload.reportOid) },
+        { $push: { [payload.voteFor == 'Owner' ? 'reporterVotes' : 'caVotes']: payload } }
+      );
+    return res.sendStatus(201);
+  })
+);
 export default router;

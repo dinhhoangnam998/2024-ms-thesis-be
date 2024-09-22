@@ -14,16 +14,6 @@ export async function assertImageFile(buffer) {
   if (!result || !result.mime.startsWith('image')) throw new InputDataInvalid({ message: 'File ảnh không hợp lệ!' });
 }
 
-export function convertCertParamsLongToShort(params) {
-  const CN = params.name;
-  const C = params.country;
-  const ST = params.province;
-  const L = params.locality;
-  const O = params.organization;
-  const OU = params.unit;
-  return { CN, C, ST, L, O, OU };
-}
-
 export function isValidEmail(email) {
   const re = /\S+@\S+\.\S+/;
   return re.test(email);

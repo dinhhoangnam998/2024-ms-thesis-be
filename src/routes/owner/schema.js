@@ -15,12 +15,13 @@ export const createCertificateSchema = z.object({
 });
 
 export const createFraudReportSchema = z.object({
-  reportId: z.string(),
+  // reportId: z.string(),
   reporter: z.string(),
-  stakedAmount: z.string(),
+  stakeAmount: z.string(),
   identity: z.string(),
   serialNumber: z.string(),
   caAddresses: z.string().array(),
   caAccountIds: z.string().array(),
   reportDocCID: z.string(),
+  txid: z.string(),
 });

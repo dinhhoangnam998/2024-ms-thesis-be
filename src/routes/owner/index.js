@@ -75,6 +75,8 @@ router.post(
   '/reports',
   authen,
   handlerWrapper(async (req, res) => {
+    const coll = db.collection(Collections.FraudReports);
+    const count = await coll.countDocuments({});
     const payload = createFraudReportSchema.parse(req.body);
     await db.collection(Collections.FraudReports).insertOne({
       ...payload,
@@ -83,6 +85,7 @@ router.post(
       caPleadDocCIDs: [],
       reporterVotes: [],
       caVotes: [],
+      reportId: count.toString(),
     });
     return res.sendStatus(201);
   })

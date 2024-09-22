@@ -8,6 +8,8 @@ import { onInit } from './init.js';
 import { logConfig } from './qa/logging.js';
 import { notifier } from './qa/notifying.js';
 import accountRouter from './routes/account/index.js';
+import ownerRouter from './routes/owner/index.js';
+import caRouter from './routes/ca/index.js';
 import healthCheckRouter from './routes/health-check/index.js';
 
 const app = express();
@@ -20,6 +22,8 @@ app.use(createLogMiddleware(app, logConfig));
 
 // endpoint
 app.use('/api/account', accountRouter);
+app.use('/api/owner', ownerRouter);
+app.use('/api/ca', caRouter);
 app.use(healthCheckRouter);
 
 // handle errors

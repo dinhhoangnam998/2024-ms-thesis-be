@@ -8,6 +8,7 @@ export const db = client.db();
 
 export const Collections = {
   Accounts: 'accounts',
+  Certificates: 'certificates',
   RequestLogs: 'request_logs',
   Settings: 'settings',
   ForgotPassword: 'forgot_password',

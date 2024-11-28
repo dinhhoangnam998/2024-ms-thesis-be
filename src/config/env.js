@@ -23,10 +23,11 @@ const appEnvSchema = z.object({
   // GCS_SIGNED_URL_EXPIRE_TIME_IN_MINUTES: z.string().optional(),
   // GCS_SA_KEY_FILE_PATH: z.string().optional(),
   // send mail
-  GG_MAILER_USER: z.string().email(),
-  GG_MAILER_PW: z.string(),
+  // GG_MAILER_USER: z.string().email(),
+  // GG_MAILER_PW: z.string(),
 
   ACCESS_TOKEN_EXPIRE_TIME: z.string().or(z.number()).default('10m'),
+  PINATA_JWT: z.string()
 });
 // .superRefine((schema, ctx) => {
 //   if (schema.FILE_STORAGE_PROVIDER === FileStorageProviderEnum.enum.BSIGN_FILE_SERVER) {

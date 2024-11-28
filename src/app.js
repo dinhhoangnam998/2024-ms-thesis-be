@@ -12,6 +12,7 @@ import ownerRouter from './routes/owner/index.js';
 import caRouter from './routes/ca/index.js';
 import boardRouter from './routes/board/index.js';
 import healthCheckRouter from './routes/health-check/index.js';
+import ipfsRouter from './routes/ipfs/index.js';
 
 const app = express();
 app.use(express.json({ limit: appEnv.REQUEST_SIZE_LIMIT_IN_MB * MB }));
@@ -26,6 +27,7 @@ app.use('/api/account', accountRouter);
 app.use('/api/owner', ownerRouter);
 app.use('/api/ca', caRouter);
 app.use('/api/board', boardRouter);
+app.use('/api/ipfs', ipfsRouter);
 app.use(healthCheckRouter);
 
 // handle errors
